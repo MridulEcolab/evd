@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barcode & QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin: 0;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    canvas, #qrcode {
+      margin-top: 20px;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+    }
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="logo.png" alt="Logo" />
+    <h1>Barcode & QR Code Generator</h1>
+  </div>
+
+  <div>
+    <input type="text" id="inputText" placeholder="Enter text..." />
+    <select id="codeType">
+      <option value="BARCODE128">Code 128</option>
+      <option value="BARCODE39">Code 39</option>
+      <option value="QRCODE">QR Code</option>
+    </select>
+    <button onclick="generate()">Generate</button>
+  </div>
+
+  <canvas id="barcode" style="display:none;"></canvas>
+  <div id="qrcode" style="display:none;"></div>
+
+  <div>
+    <button onclick="download()">Download Image</button>
+  </div>
+
+  <footer>
+    ©️ Use for internal use
+  </footer>
+
+  <!-- JsBarcode -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    function generate() {
+      const text = document.getElementById('inputText').value.trim();
+      const codeType = document.getElementById('codeType').value;
+
+      if (text === '') {
+        alert('Please enter some text.');
+        return;
+      }
+
+      const barcodeCanvas = document.getElementById('barcode');
+      const qrcodeDiv = document.getElementById('qrcode');
+
+      if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
+        barcodeCanvas.style.display = 'inline-block';
+        qrcodeDiv.style.display = 'none';
+
+        JsBarcode("#barcode", text, {
+          format: codeType === 'BARCODE128' ? 'CODE128' : 'CODE39',
+          displayValue: true,
+          fontSize: 16,
+          height: 80,
+          margin: 10
+        });
+      } else if (codeType === 'QRCODE') {
+        barcodeCanvas.style.display = 'none';
+        qrcodeDiv.style.display = 'inline-block';
+
+        qrcodeDiv.innerHTML = '';
+        new QRCode(qrcodeDiv, {
+          text: text,
+          width: 200,
+          height: 200
+        });
+      }
+    }
+
+    function download() {
+      const codeType = document.getElementById('codeType').value;
+
+      if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
+        const canvas = document.getElementById('barcode');
+        const link = document.createElement('a');
+        link.download = 'barcode.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      } else if (codeType === 'QRCODE') {
+        const qrDiv = document.getElementById('qrcode');
+        const img = qrDiv.querySelector('img') || qrDiv.querySelector('canvas');
+        if (!img) {
+          alert('Generate a QR code first.');
+          return;
+        }
+        const link = document.createElement('a');
+        link.download = 'qrcode.png';
+        link.href = img.src || img.toDataURL();
+        link.click();
+      }
+    }
+  </script>
+</body>
+</html>
