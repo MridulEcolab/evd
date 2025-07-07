@@ -106,72 +106,33 @@
       }
     }
 
-    // function download() {
-    //   const codeType = document.getElementById('codeType').value;
+    function download() {
+      const codeType = document.getElementById('codeType').value;
 
-    //   if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
-    //     const canvas = document.getElementById('barcode');
-    //     const link = document.createElement('a');
-    //     link.download = 'barcode.png';
-    //     link.href = canvas.toDataURL();
-    //     link.click();
-    //   } else if (codeType === 'QRCODE') {
-    //     const qrDiv = document.getElementById('qrcode');
-    //     const img = qrDiv.querySelector('img') || qrDiv.querySelector('canvas');
-    //     if (!img) {
-    //       alert('Generate a QR code first.');
-    //       return;
-    //     }
-    //     const link = document.createElement('a');
-    //     link.download = 'qrcode.png';
-    //     link.href = img.src || img.toDataURL();
-    //     link.click();
-    //   }
-    // }
+      const codeValue = document.getElementById('inputText').value.trim();
+    alert('Generate a QR code first.'+codeValue);
 
-    
-function download() 
-{
-  const codeValue = document.getElementById('inputText').value.trim();
-  const codeType = document.getElementById('codeType').value;
-
-  if (!codeValue) {
-    alert('Please enter or scan the code value before downloading.');
-    return;
-  }
-
-  const safeCodeValue = codeValue.replace(/[^a-zA-Z0-9_-]/g, '_');
-
-  if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
-    const canvas = document.getElementById('barcode');
-    if (!canvas) {
-      alert('Please generate the barcode before downloading.');
-      return;
+      if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
+        const canvas = document.getElementById('barcode');
+        const link = document.createElement('a');
+        //link.download = 'barcode.png';
+        link.download = ⁠ barcode_${codeValue}.png ⁠;
+        link.href = canvas.toDataURL();
+        link.click();
+      } else if (codeType === 'QRCODE') {
+        const qrDiv = document.getElementById('qrcode');
+        const img = qrDiv.querySelector('img') || qrDiv.querySelector('canvas');
+        if (!img) {
+          alert('Generate a QR code first.');
+          return;
+        }
+        const link = document.createElement('a');
+        //link.download = 'qrcode.png';
+        link.download = ⁠ qrcode_${codeValue}.png ⁠;
+        link.href = img.src || img.toDataURL();
+        link.click();
+      }
     }
-
-    const link = document.createElement('a');
-    link.download = ⁠ barcode_${safeCodeValue}.png ⁠;
-    link.href = canvas.toDataURL();
-    link.click();
-
-  } else if (codeType === 'QRCODE') {
-    const qrDiv = document.getElementById('qrcode');
-    const img = qrDiv.querySelector('img') || qrDiv.querySelector('canvas');
-
-    if (!img) {
-      alert('Please generate the QR code before downloading.');
-      return;
-    }
-
-    const link = document.createElement('a');
-    link.download = ⁠ qrcode_${safeCodeValue}.png ⁠;
-    link.href = img.src || img.toDataURL();
-    link.click();
-
-  } else {
-    alert('Invalid code type selected.');
-  }
-}
   </script>
 </body>
 </html>
