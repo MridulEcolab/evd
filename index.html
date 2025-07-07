@@ -90,7 +90,7 @@
           format: codeType === 'BARCODE128' ? 'CODE128' : 'CODE39',
           displayValue: true,
           fontSize: 16,
-          height: 80,
+          height: 30,
           margin: 10
         });
       } else if (codeType === 'QRCODE') {
@@ -100,8 +100,8 @@
         qrcodeDiv.innerHTML = '';
         new QRCode(qrcodeDiv, {
           text: text,
-          width: 200,
-          height: 200
+          width: 100,
+          height: 100
         });
       }
     }
