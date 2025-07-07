@@ -130,9 +130,10 @@
     // }
 
     
-function download() {
-  const codeType = document.getElementById('inputText').value;
-  const codeValue = document.getElementById('codeValue').value.trim();
+function download() 
+{
+  const codeValue = document.getElementById('inputText').value.trim();
+  const codeType = document.getElementById('codeType').value;
 
   if (!codeValue) {
     alert('Please enter or scan the code value before downloading.');
