@@ -131,7 +131,7 @@
 
     
 function download() {
-  const codeType = document.getElementById('codeType').value;
+  const codeType = document.getElementById('inputText').value;
   const codeValue = document.getElementById('codeValue').value.trim();
 
   if (!codeValue) {
@@ -139,7 +139,6 @@ function download() {
     return;
   }
 
-  // Clean up filename to avoid invalid characters
   const safeCodeValue = codeValue.replace(/[^a-zA-Z0-9_-]/g, '_');
 
   if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
