@@ -108,15 +108,11 @@
 
     function download() {
       const codeType = document.getElementById('codeType').value;
-
-      const codeValue = document.getElementById('inputText').value.trim();
-    //alert('Generate a QR code first.'+codeValue);
-
+  
       if (codeType === 'BARCODE128' || codeType === 'BARCODE39') {
         const canvas = document.getElementById('barcode');
         const link = document.createElement('a');
-        //link.download = 'barcode.png';
-        link.download = ⁠ barcode_${codeValue}.png ⁠;
+        link.download = 'barcode.png';
         link.href = canvas.toDataURL();
         link.click();
       } else if (codeType === 'QRCODE') {
@@ -127,8 +123,7 @@
           return;
         }
         const link = document.createElement('a');
-        //link.download = 'qrcode.png';
-        link.download = ⁠ qrcode_${codeValue}.png ⁠;
+        link.download = 'qrcode.png';
         link.href = img.src || img.toDataURL();
         link.click();
       }
